@@ -1,0 +1,21 @@
+To Compile:
+===========
+
+cd D:\OneDrive\Java\TestModules\mymodapp
+D:\OneDrive\Java\TestModules\mymodapp>
+
+javac -d appmodules\appfuncs appsrc\appfuncs\module-info.java appsrc\appfuncs\appfuncs\simplefuncs\SimpleMathFuncs.java
+
+javac --module-path appmodules -d appmodules\appstart appsrc\appstart\module-info.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+Или одной командой:
+javac -d appmodules --module-source-path appsrc appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+
+javac -d appmodules --module-source-path appsrc appsrc\appstart\module-info.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java appsrc\userfuncs\module-info.java
+
+
+To Start:
+=========
+
+java --module-path appmodules -m appstart/appstart.mymodappdemo.MyModAppDemo

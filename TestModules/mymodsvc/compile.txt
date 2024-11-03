@@ -1,0 +1,100 @@
+To Compile:
+===========
+
+cd D:\OneDrive\Java\TestModules\mymodapp
+D:\OneDrive\Java\TestModules\mymodapp>
+
+javac -d appmodules\appfuncs appsrc\appfuncs\module-info.java appsrc\appfuncs\appfuncs\simplefuncs\SimpleMathFuncs.java
+
+javac --module-path appmodules -d appmodules\appstart appsrc\appstart\module-info.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+Или одной командой:
+javac -d appmodules --module-source-path appsrc appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+Новая версия, одной командой:
+javac -d appmodules --module-source-path appsrc appsrc\userfuncsimp\module-info.java appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java 
+
+
+
+To Start:
+=========
+java --module-path appmodules -m appstart/appstart.mymodappdemo.MyModAppDemo
+
+Запуск из JAR:
+java -p mymodsvc\applib -m appstart
+
+mylinkedfromjarmodsvc\bin\MyModSvc.bat
+
+JLINK Создание образа файла
+===========================
+
+jlink --launcher MyModApp=appstart/appstart.mymodappdemo.MyModAppDemo --module-path "%JAVA_HOME%"\jmods;mymodapp\appmodules --add-modules appstart --output mylinkedmodapp
+
+jlink --launcher MyModSvc=appstart/appstart.mymodappdemo.MyModAppDemo --module-path "%JAVA_HOME%"\jmods;mymodsvc\appmodules --add-modules appstart --output mylinkedmodsvc
+
+Для JAR:
+jlink --launcher MyModSvc=appstart --module-path "%JAVA_HOME%"\jmods;mymodsvc\applib --add-modules appstart --output mylinkedfromjarmodsvc
+
+JAR Создание архивных пакетов
+=============================
+
+jar --create --file=mymodapp\applib\appfuncs.jar -C mymodapp\appmodules\appfuncs .
+jar --create --file=mymodapp\applib\appsupport.jar -C mymodapp\appmodules\appsupport .
+jar --create --file=mymodapp\applib\appstart.jar --main-class=appstart.mymodappdemo.MyModAppDemo -C mymodapp\appmodules\appstart .
+
+jar --create --file=mymodsvc\applib\appfuncs.jar -C mymodsvc\appmodules\appfuncs .
+jar --create --file=mymodsvc\applib\appsupport.jar -C mymodsvc\appmodules\appsupport .
+jar --create --file=mymodsvc\applib\userfuncs.jar -C mymodsvc\appmodules\userfuncs .
+jar --create --file=mymodsvc\applib\userfuncsimp.jar -C mymodsvc\appmodules\userfuncsimp .
+jar --create --file=mymodsvc\applib\appstart.jar --main-class=appstart.mymodappdemo.MyModAppDemo -C mymodsvc\appmodules\appstart .
+
+
+
+Файлы проекта:
+==============
+
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appstart\module-info.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appstart\appstart\mymodappdemo\MyModAppDemo.java
+
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appfuncs\module-info.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appfuncs\appfuncs\simplefuncs\SimpleMathFuncs.java
+
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appsupport\module-info.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\appsupport\appsupport\supportfuncs\SupportFuncs.java
+
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncs\module-info.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncs\userfuncs\binaryfuncs\BinaryFunc.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncs\userfuncs\binaryfuncs\BinFuncProvider.java
+
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncsimp\module-info.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncsimp\userfuncsimp\binaryfuncsimp\AbsPlusProvider.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncsimp\userfuncsimp\binaryfuncsimp\AbsMinusProvider.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncsimp\userfuncsimp\binaryfuncsimp\AbsPlus.java
+D:\OneDrive\Java\TestModules\mymodsvc\appsrc\userfuncsimp\userfuncsimp\binaryfuncsimp\AbsMinus.java
+
+
+
+Файлы модулей:
+==============
+
+module appstart{
+	requires appfuncs;
+	requires userfuncs;
+	uses userfuncs.binaryfuncs.BinFuncProvider;
+}
+module userfuncs {
+	exports userfuncs.binaryfuncs;
+}
+module userfuncsimp {
+	requires userfuncs;
+	provides userfuncs.binaryfuncs.BinFuncProvider with
+		userfuncsimp.binaryfuncsimp.AbsPlusProvider,
+		userfuncsimp.binaryfuncsimp.AbsMinusProvider;
+}
+module appfuncs{
+	exports appfuncs.simplefuncs to appstart;
+	requires transitive appsupport;
+}
+module appsupport {
+	exports appsupport.supportfuncs;
+}
