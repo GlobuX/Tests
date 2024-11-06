@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 //Тест работы CharsetDecoder, SeekableByteChannel, ByteBuffer
-public class CharsetDecoderTest {
+public class CharsetDecoderTest2 {
     public static void main(String[] args) {
         Path file = Paths.get("C:/Temp").resolve("test.txt");
         try (SeekableByteChannel sbc = Files.newByteChannel(file)) {
