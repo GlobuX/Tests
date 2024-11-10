@@ -1,7 +1,6 @@
 package ru.globux.test.net;
 
 import java.net.InetAddress;
-import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.*;
@@ -79,15 +78,18 @@ public class NetworkInterfaceTest {
                 System.out.println();
 
                 System.out.println("SubInterfaces:");
-                for (Enumeration<NetworkInterface> iface = ni.getSubInterfaces(); iface.hasMoreElements(); ) {
-                    String name = iface.nextElement().getName();
-                    System.out.print("   " + name);
+                for (NetworkInterface netIf: Collections.list(ni.getSubInterfaces())) {
+                    System.out.print("   " + netIf.getName());
                 }
+//                for (Enumeration<NetworkInterface> iface = ni.getSubInterfaces(); iface.hasMoreElements(); ) {
+//                    String name = iface.nextElement().getName();
+//                    System.out.print("   " + name);
+//                }
                 System.out.println();
             }
 
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
