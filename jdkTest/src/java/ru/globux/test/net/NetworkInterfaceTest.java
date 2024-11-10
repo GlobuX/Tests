@@ -16,7 +16,7 @@ public class NetworkInterfaceTest {
     public static void main(String[] args) {
 
         byte[] bt = {2, 6, 2, 10, 15};
-        Stream.of(bt).forEach(x -> System.out.println(x.getClass() + "\\n"));
+        Stream.of(bt).forEach(x -> System.out.println(x.getClass() + "\n"));
         Supplier<List<String>> sup = ArrayList::new;
         List<String> list = sup.get();
         IntFunction<String[]> func = value -> new String[value];
