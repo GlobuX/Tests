@@ -1,4 +1,4 @@
-package ru.globux.testing.test1;
+package ru.globux.test.nio;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
