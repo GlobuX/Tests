@@ -8,7 +8,7 @@ public class Test1 {
     public static void main(String[] args) {
         Set<String> set = new TreeSet<>();
 
-        int n = 5;
+        int n = 2;
         n = 1 << n;
         System.out.println(n);
 
